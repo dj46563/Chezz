@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class AbstractPiece : MonoBehaviour
 {
-    public bool isWhite { get; set; }
-    public int pointValue { get; set; }
-    public Coordinate position { get; set; }
+    public bool IsWhite { get; set; }
+    public int PointValue { get; set; }
+    public Coordinate Position { get; set; }
 
-    public abstract Coordinate[] GetMoves();
+    public abstract void Initialize(bool isWhite, int pointValue, Coordinate position);
 }
