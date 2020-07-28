@@ -6,9 +6,9 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class ChessNetworker : MonoBehaviour
+public class ChessNetworker
 {
-    private bool _isServer;
+    public bool IsServer { get; private set; }
     private Server _server;
     private Client _client;
     private enum Type : byte
@@ -21,19 +21,19 @@ public class ChessNetworker : MonoBehaviour
     {
         Client, Server
     }
-    
-    public ChessNetworker(NetworkerType networkerType)
+
+    public ChessNetworker(NetworkerType networkerType, GameObject parent)
     {
         switch (networkerType)
         {
             case NetworkerType.Server:
-                _isServer = true;
-                _server = gameObject.AddComponent<Server>();
+                IsServer = true;
+                _server = parent.AddComponent<Server>();
                 _server.Listen(Constants.DefaultPort);
                 break;
             case NetworkerType.Client:
-                _isServer = false;
-                _client = gameObject.AddComponent<Client>();
+                IsServer = false;
+                _client = parent.AddComponent<Client>();
                 _client.Connect(Constants.DefaultHost, Constants.DefaultPort);
                 break;
         }
@@ -41,7 +41,7 @@ public class ChessNetworker : MonoBehaviour
 
     public void SendClientMove(Coordinate source, Coordinate destination)
     {
-        if (_isServer)
+        if (IsServer)
             throw new Exception("Server networker cannot send this message");
 
         byte[] data = GenerateClientMove(source, destination);
@@ -50,7 +50,7 @@ public class ChessNetworker : MonoBehaviour
 
     public void SendServerMove(Coordinate source, Coordinate destination, TimeSpan timeLeft)
     {
-        if (!_isServer)
+        if (!IsServer)
             throw new Exception("Client networker cannot send this message");
 
         byte[] data = GenerateServerMove(source, destination, timeLeft);
