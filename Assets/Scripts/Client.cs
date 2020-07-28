@@ -72,4 +72,11 @@ public class Client : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        _client.Flush();
+        _peer.DisconnectNow(0);
+        _client.Dispose();
+    }
 }

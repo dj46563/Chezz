@@ -71,4 +71,10 @@ public class Server : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        _server.Flush();
+        _server.Dispose();
+    }
 }

@@ -42,6 +42,7 @@ public class ChessNetworker
             case NetworkerType.Client:
                 IsServer = false;
                 _client = parent.AddComponent<Client>();
+                ConnectToServer(Constants.DefaultHost, Constants.DefaultPort);
                 _client.PacketReceived += ClientOnPacketReceived;
                 break;
         }
