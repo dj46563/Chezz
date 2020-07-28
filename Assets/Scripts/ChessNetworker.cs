@@ -42,10 +42,15 @@ public class ChessNetworker
             case NetworkerType.Client:
                 IsServer = false;
                 _client = parent.AddComponent<Client>();
-                _client.Connect(Constants.DefaultHost, Constants.DefaultPort);
                 _client.PacketReceived += ClientOnPacketReceived;
                 break;
         }
+    }
+
+    public void ConnectToServer(string host, ushort port)
+    {
+        if (!IsServer)
+            _client.Connect(host, port);
     }
 
     private MessageType GetMessageType(MemoryStream stream)
