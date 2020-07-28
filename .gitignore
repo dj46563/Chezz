@@ -2,6 +2,10 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+
+#ENet log
+enet_log.txt
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
