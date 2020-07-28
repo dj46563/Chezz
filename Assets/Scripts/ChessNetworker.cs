@@ -4,14 +4,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEditor;
 using UnityEngine;
 
 public class ChessNetworker
 {
+    public event Action<Coordinate, Coordinate, uint> ClientMoveReceived;
+    public event Action<Coordinate, Coordinate, TimeSpan> ServerMoveReceived;
+    
     public bool IsServer { get; private set; }
     private Server _server;
     private Client _client;
-    private enum Type : byte
+    private IFormatter formatter;
+    private enum MessageType : byte
     {
         ClientMove,
         ServerMove,
@@ -24,18 +29,64 @@ public class ChessNetworker
 
     public ChessNetworker(NetworkerType networkerType, GameObject parent)
     {
+        formatter = new BinaryFormatter();
+        
         switch (networkerType)
         {
             case NetworkerType.Server:
                 IsServer = true;
                 _server = parent.AddComponent<Server>();
                 _server.Listen(Constants.DefaultPort);
+                _server.PacketReceived += ServerOnPacketReceived;
                 break;
             case NetworkerType.Client:
                 IsServer = false;
                 _client = parent.AddComponent<Client>();
                 _client.Connect(Constants.DefaultHost, Constants.DefaultPort);
+                _client.PacketReceived += ClientOnPacketReceived;
                 break;
+        }
+    }
+
+    private MessageType GetMessageType(MemoryStream stream)
+    {
+        return (MessageType)formatter.Deserialize(stream);
+    }
+
+    private void ClientOnPacketReceived(byte[] data)
+    {
+        using (MemoryStream stream = new MemoryStream())
+        {
+            MessageType messageMessageType = GetMessageType(stream);
+            switch (messageMessageType)
+            {
+                case MessageType.ServerMove:
+                    Coordinate source = (Coordinate) formatter.Deserialize(stream);
+                    Coordinate destination = (Coordinate) formatter.Deserialize(stream);
+                    TimeSpan timeLeft = (TimeSpan) formatter.Deserialize(stream);
+                    ServerMoveReceived?.Invoke(source, destination, timeLeft);
+                    break;
+                default:
+                    throw new Exception("Client received another client packet");
+            }
+        }
+    }
+
+    private void ServerOnPacketReceived(byte[] data, uint peerId)
+    {
+        using (MemoryStream stream = new MemoryStream())
+        {
+            MessageType messageMessageType = GetMessageType(stream);
+            switch (messageMessageType)
+            {
+                case MessageType.ClientMove:
+                    Coordinate source = (Coordinate) formatter.Deserialize(stream);
+                    Coordinate destination = (Coordinate) formatter.Deserialize(stream);
+                    ClientMoveReceived?.Invoke(source, destination, peerId);
+                    break;
+                default:
+                    throw new Exception("Server received another server packet");
+            }
         }
     }
 
@@ -59,13 +110,12 @@ public class ChessNetworker
     
     private byte[] GenerateClientMove(Coordinate source, Coordinate destination)
     {
-        Type messageType = Type.ClientMove;
+        MessageType messageMessageType = MessageType.ClientMove;
         byte[] bytes;
         
-        IFormatter formatter = new BinaryFormatter();
         using (MemoryStream stream = new MemoryStream())
         {
-            formatter.Serialize(stream, messageType);
+            formatter.Serialize(stream, messageMessageType);
             formatter.Serialize(stream, source);
             formatter.Serialize(stream, destination);
 
@@ -77,13 +127,12 @@ public class ChessNetworker
 
     private byte[] GenerateServerMove(Coordinate source, Coordinate destination, TimeSpan timeLeft)
     {
-        Type messageType = Type.ServerMove;
+        MessageType messageMessageType = MessageType.ServerMove;
         byte[] bytes;
         
-        IFormatter formatter = new BinaryFormatter();
         using (MemoryStream stream = new MemoryStream())
         {
-            formatter.Serialize(stream, messageType);
+            formatter.Serialize(stream, messageMessageType);
             formatter.Serialize(stream, source);
             formatter.Serialize(stream, destination);
             formatter.Serialize(stream, timeLeft);
