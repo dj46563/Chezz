@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class Board : MonoBehaviour
     bool isPieceClicked = false;
     AbstractPiece pieceClicked;
     public GameObject whitePawnPrefab;
+    public event Action<Coordinate, Coordinate> OnPieceMove;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,7 @@ public class Board : MonoBehaviour
                 if (square != pieceClicked.Position)
                 {
                     board[CoordinateHelper.CoordinateToArrayIndex(pieceClicked.Position)] = null;
+                    OnPieceMove?.Invoke(pieceClicked.Position, square);
                     pieceClicked.MoveTo(square);
                     board[CoordinateHelper.CoordinateToArrayIndex(square)] = pieceClicked;
                 }
