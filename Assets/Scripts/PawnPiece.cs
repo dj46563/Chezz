@@ -19,9 +19,6 @@ public class PawnPiece : AbstractPiece
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            MoveTo(new Coordinate('f', 4));
-        }
+        
     }
 }

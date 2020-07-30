@@ -11,18 +11,8 @@ public abstract class AbstractPiece : MonoBehaviour
 
     public void MoveTo(Coordinate destination)
     {
-        transform.position = CoordinateToVector3(destination);
+        transform.position = CoordinateHelper.CoordinateToVector3(destination);
         Position = destination;
-    }
-
-    private Vector3 CoordinateToVector3(Coordinate coordinate)
-    {
-        return new Vector3
-        {
-            x = (coordinate.column - 'a') * 8 - 28,
-            y = (coordinate.row - 1) * 8 - 28,
-            z = 0
-        };
     }
 
     public abstract void Initialize(bool isWhite, int pointValue, Coordinate position);

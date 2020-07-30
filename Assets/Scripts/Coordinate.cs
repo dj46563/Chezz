@@ -14,4 +14,14 @@ public struct Coordinate
         column = inCol;
         row = inRow;
     }
+
+    public static bool operator==(Coordinate c1, Coordinate c2)
+    {
+        return (c1.column == c2.column && c1.row == c2.row);
+    }
+
+    public static bool operator!=(Coordinate c1, Coordinate c2)
+    {
+        return !(c1.column == c2.column && c1.row == c2.row);
+    }
 }
