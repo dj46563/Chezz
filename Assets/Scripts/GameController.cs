@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     private ChessNetworker _chessNetworker;
     private UIController _uiController;
     public bool IsServer => _chessNetworker.IsServer; //Expose IsServer from networker
+    private Board _board;
 
     private void Awake()
     {
@@ -17,10 +18,12 @@ public class GameController : MonoBehaviour
         }
         
         MainMenuController.PlayPressed += StartClient;
-        MainMenuController.PlayPressed += StartServer;
+        MainMenuController.HostPressed += StartServer;
         
         _uiController = new UIController();
         _uiController.LoadMainMenu();
+
+        _board = GameObject.Find("Chessboard").GetComponent<Board>();
     }
 
     private void StartServer()
@@ -33,6 +36,14 @@ public class GameController : MonoBehaviour
     {
         _chessNetworker = new ChessNetworker(ChessNetworker.NetworkerType.Client, gameObject);
         _chessNetworker.ServerMoveReceived += OnServerMoveReceived;
+        
+        _board.OnPieceMove += BoardOnOnPieceMove;
+    }
+
+    private void BoardOnOnPieceMove(Coordinate source, Coordinate destination)
+    {
+        // TODO: Hook in the clock too
+        _chessNetworker.SendClientMove(source, destination);
     }
 
     private void OnServerMoveReceived(Coordinate arg1, Coordinate arg2, TimeSpan arg3)
@@ -41,10 +52,9 @@ public class GameController : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    private void OnClientMoveReceived(Coordinate arg1, Coordinate arg2, uint arg3)
+    private void OnClientMoveReceived(Coordinate source, Coordinate dest, uint peerId)
     {
-        // Check if move is valid
-        // send move to all clients
-        throw new NotImplementedException();
+        // TODO: Check if move is valid
+        // TODO: send move to all clients
     }
 }

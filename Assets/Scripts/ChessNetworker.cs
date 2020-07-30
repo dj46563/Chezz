@@ -80,19 +80,18 @@ public class ChessNetworker
 
     private void ServerOnPacketReceived(byte[] data, uint peerId)
     {
-        using (MemoryStream stream = new MemoryStream())
+        MessageType messageType = (MessageType) data[0];
+        switch (messageType)
         {
-            MessageType messageMessageType = GetMessageType(stream);
-            switch (messageMessageType)
-            {
-                case MessageType.ClientMove:
-                    Coordinate source = (Coordinate) formatter.Deserialize(stream);
-                    Coordinate destination = (Coordinate) formatter.Deserialize(stream);
-                    ClientMoveReceived?.Invoke(source, destination, peerId);
-                    break;
-                default:
-                    throw new Exception("Server received another server packet");
-            }
+            case MessageType.ClientMove:
+                byte[] srcData = new byte[2];
+                Buffer.BlockCopy(data, 1, srcData, 0, 2);
+                byte[] dstData = new byte[2];
+                Buffer.BlockCopy(data, 3, dstData, 0, 2);
+                ClientMoveReceived?.Invoke(Coordinate.Deserialize(srcData), Coordinate.Deserialize(dstData), peerId);
+                break;
+            default:
+                throw new Exception("Server received another server packet");
         }
     }
 
@@ -116,17 +115,10 @@ public class ChessNetworker
     
     private byte[] GenerateClientMove(Coordinate source, Coordinate destination)
     {
-        MessageType messageMessageType = MessageType.ClientMove;
-        byte[] bytes;
-        
-        using (MemoryStream stream = new MemoryStream())
-        {
-            formatter.Serialize(stream, messageMessageType);
-            formatter.Serialize(stream, source);
-            formatter.Serialize(stream, destination);
-
-            bytes = stream.ToArray();
-        }
+        byte[] bytes = new byte[5];
+        bytes[0] = (byte)MessageType.ClientMove;
+        Buffer.BlockCopy(Coordinate.Serialize(source), 0, bytes, 1, 2);
+        Buffer.BlockCopy(Coordinate.Serialize(destination), 0, bytes, 3, 2);
 
         return bytes;
     }

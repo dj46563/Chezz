@@ -66,6 +66,7 @@ public class Server : MonoBehaviour
                     break;
                 case EventType.Receive:
                     byte[] buffer = new byte[netEvent.Packet.Length];
+                    netEvent.Packet.CopyTo(buffer);
                     PacketReceived?.Invoke(buffer, netEvent.Peer.ID);
                     break;
             }
