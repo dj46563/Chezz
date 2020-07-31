@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AbstractPiece : MonoBehaviour
+public class Piece : MonoBehaviour
 {
+    public ChessPiece Type { get; set; }
     public bool IsWhite { get; set; }
     public int PointValue { get; set; }
     public Coordinate Position { get; set; }
@@ -15,5 +16,11 @@ public abstract class AbstractPiece : MonoBehaviour
         Position = destination;
     }
 
-    public abstract void Initialize(bool isWhite, int pointValue, Coordinate position);
+    public void Initialize(ChessPiece type, bool isWhite, int pointValue, Coordinate position)
+    {
+        Type = type;
+        IsWhite = isWhite;
+        PointValue = pointValue;
+        Position = position;
+    }
 }
