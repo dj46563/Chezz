@@ -7,19 +7,16 @@ public enum ChessPiece { Pawn, Knight, Bishop, Rook, Queen, King };
 
 public class Board : MonoBehaviour
 {
-    Piece[] board = new Piece[64];
+    Piece[] board;
 
     bool isPieceClicked = false;
     Piece pieceClicked;
-    public GameObject whitePawnPrefab;
     public event Action<Coordinate, Coordinate> OnPieceMove;
 
     // Start is called before the first frame update
     void Start()
     {
-        Piece pawnPiece1 = Instantiate(whitePawnPrefab, new Vector3((float)-3.5, (float)-2.5, 0), Quaternion.identity).GetComponent<Piece>();
-        pawnPiece1.Initialize(ChessPiece.Pawn, true, 1, new Coordinate('a', 2));
-        board[CoordinateHelper.CoordinateToArrayIndex(pawnPiece1.Position)] = pawnPiece1;
+        board = gameObject.GetComponent<BoardSpawner>().SpawnBoard();
     }
 
     // Update is called once per frame
