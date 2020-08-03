@@ -61,7 +61,7 @@ public class ChessNetworker
 
     private void ClientOnPacketReceived(byte[] data)
     {
-        using (MemoryStream stream = new MemoryStream())
+        using (MemoryStream stream = new MemoryStream(data))
         {
             MessageType messageMessageType = GetMessageType(stream);
             switch (messageMessageType)

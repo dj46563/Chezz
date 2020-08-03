@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.SceneManagement;
@@ -6,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class UIController
 {
+    public static event Action MainMenuUnloaded;
+    
     public UIController()
     {
         MainMenuController.HostPressed += UnloadMainMenu;
@@ -20,5 +23,6 @@ public class UIController
     public void UnloadMainMenu()
     {
         SceneManager.UnloadSceneAsync("MainMenu");
+        MainMenuUnloaded?.Invoke();
     }
 }

@@ -46,15 +46,20 @@ public class GameController : MonoBehaviour
         _chessNetworker.SendClientMove(source, destination);
     }
 
-    private void OnServerMoveReceived(Coordinate arg1, Coordinate arg2, TimeSpan arg3)
+    private void OnServerMoveReceived(Coordinate source, Coordinate dest, TimeSpan arg3)
     {
         // Apply move to board
-        throw new NotImplementedException();
+        _board.MoveTo(source, dest);
     }
 
     private void OnClientMoveReceived(Coordinate source, Coordinate dest, uint peerId)
     {
         // TODO: Check if move is valid
         // TODO: send move to all clients
+        
+        bool valid = _board.MoveTo(source, dest);
+        
+        if (valid)
+            _chessNetworker.SendServerMove(source, dest, TimeSpan.Zero);
     }
 }
