@@ -338,3 +338,46 @@
 2020-08-03 10:57:42 [TRACE] [enet_host_create:3943] SHOWTIME: Host created successfully.
 2020-08-03 10:57:42 [TRACE] [enet_host_connect:3973] Connection to host going up
 2020-08-03 10:57:49 [TRACE] [enet_host_destroy:3948] ENET Host being destroyed.
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3820] ENET Host being created.
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3854] Switching socket to IPv6 version 6 only mode
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3874] START: Buffer Setup
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3880] START: Setup socket options
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3886] START: Address Setup
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3890] START: Channels Setup
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3925] Clearing dispatch queue
+2020-08-05 16:48:03 [TRACE] [enet_host_create:3943] SHOWTIME: Host created successfully.
+2020-08-05 16:48:03 [TRACE] [enet_host_connect:3973] Connection to host going up
+2020-08-05 16:48:05 [TRACE] [enet_host_destroy:3948] ENET Host being destroyed.
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3820] ENET Host being created.
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3854] Switching socket to IPv6 version 6 only mode
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3874] START: Buffer Setup
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3880] START: Setup socket options
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3886] START: Address Setup
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3890] START: Channels Setup
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3925] Clearing dispatch queue
+2020-08-05 16:48:08 [TRACE] [enet_host_create:3943] SHOWTIME: Host created successfully.
+2020-08-05 16:48:08 [TRACE] [enet_host_connect:3973] Connection to host going up
+2020-08-05 16:48:10 [ERROR] [enet_peer_send:3073] Cannot send data. Peer is not connected, the channel id is above the maximum channels supported or the packet data length is above the maximum packet size
+
+2020-08-05 16:48:11 [ERROR] [enet_peer_send:3073] Cannot send data. Peer is not connected, the channel id is above the maximum channels supported or the packet data length is above the maximum packet size
+
+2020-08-05 16:48:12 [ERROR] [enet_peer_send:3073] Cannot send data. Peer is not connected, the channel id is above the maximum channels supported or the packet data length is above the maximum packet size
+
+2020-08-05 16:48:18 [TRACE] [enet_protocol_send_outgoing_commands:2842] Peer 0: 0.000% (+-0.000%) pkt loss, 1 ms RTT (+-0 ms Jitter), 100.00% Throttle, rel. list sizes: 0/0 out, 0/0 in
+2020-08-05 16:48:19 [ERROR] [enet_peer_send:3073] Cannot send data. Peer is not connected, the channel id is above the maximum channels supported or the packet data length is above the maximum packet size
+
+2020-08-05 16:48:23 [ERROR] [enet_peer_send:3073] Cannot send data. Peer is not connected, the channel id is above the maximum channels supported or the packet data length is above the maximum packet size
+
+2020-08-05 16:48:24 [TRACE] [enet_host_destroy:3948] ENET Host being destroyed.
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3820] ENET Host being created.
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3854] Switching socket to IPv6 version 6 only mode
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3874] START: Buffer Setup
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3880] START: Setup socket options
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3886] START: Address Setup
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3890] START: Channels Setup
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3925] Clearing dispatch queue
+2020-08-05 16:48:30 [TRACE] [enet_host_create:3943] SHOWTIME: Host created successfully.
+2020-08-05 16:48:30 [TRACE] [enet_host_connect:3973] Connection to host going up
+2020-08-05 16:48:33 [ERROR] [enet_peer_send:3073] Cannot send data. Peer is not connected, the channel id is above the maximum channels supported or the packet data length is above the maximum packet size
+
+2020-08-05 16:48:35 [TRACE] [enet_host_destroy:3948] ENET Host being destroyed.

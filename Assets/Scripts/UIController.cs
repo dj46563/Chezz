@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class UIController
 {
-    public static event Action MainMenuUnloaded;
+    public event Action MainMenuUnloaded;
     
     public UIController()
     {

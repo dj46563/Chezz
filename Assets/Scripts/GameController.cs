@@ -24,6 +24,12 @@ public class GameController : MonoBehaviour
         _uiController.LoadMainMenu();
 
         _board = GameObject.Find("Chessboard").GetComponent<Board>();
+        _board.enabled = false;
+
+        _uiController.MainMenuUnloaded += () =>
+        {
+            _board.enabled = true;
+        };
     }
 
     private void StartServer()

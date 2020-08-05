@@ -13,7 +13,6 @@ public class Board : MonoBehaviour
 
     bool isPieceClicked = false;
     Piece pieceClicked;
-    private bool gameStarted = false;
     public event Action<Coordinate, Coordinate> OnPieceMove;
 
     // Start is called before the first frame update
@@ -22,15 +21,10 @@ public class Board : MonoBehaviour
         board = gameObject.GetComponent<BoardSpawner>().SpawnBoard();
     }
 
-    private void Awake()
-    {
-        UIController.MainMenuUnloaded += () => { gameStarted = true; };
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && gameStarted)
+        if (Input.GetMouseButtonDown(0))
         {
             Coordinate square = CoordinateHelper.Vector3ToCoordinate(Camera.main.ScreenToWorldPoint(Input.mousePosition));
             if (isPieceClicked)

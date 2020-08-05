@@ -8,7 +8,7 @@ using EventType = ENet.EventType;
 
 public class Server : MonoBehaviour
 {
-    public event Action<byte[], uint> PacketReceived; 
+    public event Action<byte[], uint> PacketReceived;
     
     private Host _server;
     private Address _address;
@@ -25,7 +25,7 @@ public class Server : MonoBehaviour
         _server.Create(_address, Constants.MaxClients);
     }
 
-    public void BroadcastData(byte[] data, bool reliable = true)
+    public float BroadcastData(byte[] data, bool reliable = true)
     {
         Packet packet = default(Packet);
         PacketFlags packetFlags = PacketFlags.None;
@@ -34,6 +34,7 @@ public class Server : MonoBehaviour
         packet.Create(data, packetFlags);
         
         _server.Broadcast(0, ref packet);
+        return data.Length;
     }
 
     private void LateUpdate()
