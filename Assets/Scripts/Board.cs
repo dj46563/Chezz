@@ -1,66 +1,31 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ChessPiece { Pawn, Knight, Bishop, Rook, Queen, King };
-
-public class Board : MonoBehaviour
+public class Board
 {
-    public bool Networked;
-    
-    Piece[] board;
+    public Piece[] Chessboard { get; set; }
 
-    bool isPieceClicked = false;
-    Piece pieceClicked;
-    public event Action<Coordinate, Coordinate> OnPieceMove;
-
-    // Start is called before the first frame update
-    void Start()
+    public Board()
     {
-        board = gameObject.GetComponent<BoardSpawner>().SpawnBoard();
+        Chessboard = new Piece[64];
     }
 
-    // Update is called once per frame
-    void Update()
+    public Board(Piece[] chessboard)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Coordinate square = CoordinateHelper.Vector3ToCoordinate(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            if (isPieceClicked)
-            {
-                // Update when clicking new tile on board
-                if (square != pieceClicked.Position)
-                {
-                    OnPieceMove?.Invoke(pieceClicked.Position, square);
-                    if (!Networked)
-                    {
-                        MoveTo(pieceClicked.Position, square);
-                    }
-                }
-                isPieceClicked = false;
-            }
-            else if (board[CoordinateHelper.CoordinateToArrayIndex(square)] != null)
-            { 
-                isPieceClicked = true;
-                pieceClicked = board[CoordinateHelper.CoordinateToArrayIndex(square)];
-            }
-        }
+        Chessboard = chessboard;
     }
 
-    // Returns true if move was valid
-    public bool MoveTo(Coordinate src, Coordinate dest)
+    // Indexers
+    public Piece this[int i]
     {
-        Piece piece = board[CoordinateHelper.CoordinateToArrayIndex(src)];
-        if (piece != null)
-        {
-            board[CoordinateHelper.CoordinateToArrayIndex(src)] = null;
-            piece.MoveTo(dest);
-            board[CoordinateHelper.CoordinateToArrayIndex(dest)] = piece;
+        get { return Chessboard[i]; }
+        set { Chessboard[i] = value; }
+    }
 
-            return true;
-        }
-
-        return false;
+    public Piece this[Coordinate coordinate]
+    {
+        get { return Chessboard[CoordinateHelper.CoordinateToArrayIndex(coordinate)]; }
+        set { Chessboard[CoordinateHelper.CoordinateToArrayIndex(coordinate)] = value; }
     }
 }

@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     private ChessNetworker _chessNetworker;
     private UIController _uiController;
     public bool IsServer => _chessNetworker.IsServer; //Expose IsServer from networker
-    private Board _board;
+    private Chessboard _board;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
         _uiController = new UIController();
         _uiController.LoadMainMenu();
 
-        _board = GameObject.Find("Chessboard").GetComponent<Board>();
+        _board = GameObject.Find("Chessboard").GetComponent<Chessboard>();
         _board.enabled = false;
 
         _uiController.MainMenuUnloaded += () =>

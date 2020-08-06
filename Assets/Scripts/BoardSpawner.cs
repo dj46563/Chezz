@@ -17,67 +17,67 @@ public class BoardSpawner : MonoBehaviour
     public GameObject blackQueenPrefab;
     public GameObject blackKingPrefab;
 
-    public Piece[] SpawnBoard()
+    public Board SpawnBoard()
     {
-        Piece[] board = new Piece[64];
+        Board board = new Board();
         Piece piece;
 
         // Create pawns
         for (int i = 0; i < 8; i++)
         {
             piece = CreatePawn(true, new Coordinate((char)('a' + i), 2));
-            board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+            board[piece.Position] = piece;
 
             piece = CreatePawn(false, new Coordinate((char)('a' + i), 7));
-            board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+            board[piece.Position] = piece;
         }
 
         // Create knights
         piece = CreateKnight(true, new Coordinate('b', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
         piece = CreateKnight(true, new Coordinate('g', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         piece = CreateKnight(false, new Coordinate('b', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
         piece = CreateKnight(false, new Coordinate('g', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         // Create bishops
         piece = CreateBishop(true, new Coordinate('c', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
         piece = CreateBishop(true, new Coordinate('f', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         piece = CreateBishop(false, new Coordinate('c', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
         piece = CreateBishop(false, new Coordinate('f', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         // Create rooks
         piece = CreateRook(true, new Coordinate('a', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
         piece = CreateRook(true, new Coordinate('h', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         piece = CreateRook(false, new Coordinate('a', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
         piece = CreateRook(false, new Coordinate('h', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         // Create queens
         piece = CreateQueen(true, new Coordinate('d', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         piece = CreateQueen(false, new Coordinate('d', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         // Create kings
         piece = CreateKing(true, new Coordinate('e', 1));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         piece = CreateKing(false, new Coordinate('e', 8));
-        board[CoordinateHelper.CoordinateToArrayIndex(piece.Position)] = piece;
+        board[piece.Position] = piece;
 
         return board;
     }
