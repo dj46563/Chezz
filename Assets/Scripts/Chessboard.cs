@@ -49,7 +49,7 @@ public class Chessboard : MonoBehaviour
                 FindValidMoves(_pieceClicked);
 
                 // Print clicked piece's moves for debug purposes
-                //Debug.LogFormat("{0} move: {1}", _pieceClicked.Type.ToString(), string.Join(", ", _validMoves));
+                Debug.LogFormat("{0} move: {1}", _pieceClicked.Type.ToString(), string.Join(", ", _validMoves));
             }
         }
     }
@@ -128,7 +128,22 @@ public class Chessboard : MonoBehaviour
 
     private void FindKnightMoves(Piece piece)
     {
-        throw new NotImplementedException();
+        Coordinate current = piece.Position;
+
+        int[] xChange = { 1, 2, 2, 1, -1, -2, -2, -1 };
+        int[] yChange = { 2, 1, -1, -2, -2, -1, 1, 2 };
+
+        for (int i = 0; i < 8; i++)
+        {
+            int row = current.row + xChange[i];
+            int col = current.column + yChange[i];
+
+            if (row >= 1 && row <= 8 && col >= 'a' && col <= 'h')
+            {
+                if (_board[col, row] == null || _board[col, row].IsWhite != piece.IsWhite)
+                    _validMoves.Add(new Coordinate((char)col, (byte)row));
+            }
+        }
     }
 
     private void FindPawnMoves(Piece piece)
@@ -148,9 +163,9 @@ public class Chessboard : MonoBehaviour
             }
 
             // Check captures
-            if (current.column > 'a' && _board[current.column - 1, current.row + 1] != null)
+            if (current.column > 'a' && _board[current.column - 1, current.row + 1] != null && !_board[current.column - 1, current.row + 1].IsWhite)
                 _validMoves.Add(new Coordinate((char)(current.column - 1), (byte)(current.row + 1)));
-            if (current.column < 'h' && _board[current.column + 1, current.row + 1] != null)
+            if (current.column < 'h' && _board[current.column + 1, current.row + 1] != null && !_board[current.column + 1, current.row + 1].IsWhite)
                 _validMoves.Add(new Coordinate((char)(current.column + 1), (byte)(current.row + 1)));
         }
         else
@@ -166,9 +181,9 @@ public class Chessboard : MonoBehaviour
             }
 
             // Check captures
-            if (current.column > 'a' && _board[current.column - 1, current.row - 1] != null)
+            if (current.column > 'a' && _board[current.column - 1, current.row - 1] != null && _board[current.column - 1, current.row - 1].IsWhite)
                 _validMoves.Add(new Coordinate((char)(current.column - 1), (byte)(current.row - 1)));
-            if (current.column < 'h' && _board[current.column + 1, current.row - 1] != null)
+            if (current.column < 'h' && _board[current.column + 1, current.row - 1] != null && _board[current.column + 1, current.row - 1].IsWhite)
                 _validMoves.Add(new Coordinate((char)(current.column + 1), (byte)(current.row - 1)));
         }
     }
