@@ -4,28 +4,35 @@ using UnityEngine;
 
 public class Board
 {
-    public Piece[] Chessboard { get; set; }
+    private Piece[] _board { get; set; }
 
     public Board()
     {
-        Chessboard = new Piece[64];
+        _board = new Piece[64];
     }
 
     public Board(Piece[] chessboard)
     {
-        Chessboard = chessboard;
+        _board = chessboard;
     }
 
     // Indexers
     public Piece this[int i]
     {
-        get { return Chessboard[i]; }
-        set { Chessboard[i] = value; }
+        get { return _board[i]; }
+        set { _board[i] = value; }
     }
 
     public Piece this[Coordinate coordinate]
     {
-        get { return Chessboard[CoordinateHelper.CoordinateToArrayIndex(coordinate)]; }
-        set { Chessboard[CoordinateHelper.CoordinateToArrayIndex(coordinate)] = value; }
+        get { return _board[CoordinateHelper.CoordinateToArrayIndex(coordinate)]; }
+        set { _board[CoordinateHelper.CoordinateToArrayIndex(coordinate)] = value; }
     }
+
+    public Piece this[int column, int row]
+    {
+        get { return _board[(row - 1) * 8 + (column - 'a')]; }
+        set { _board[(row - 1) * 8 + (column - 'a')] = value; }
+    }
+
 }

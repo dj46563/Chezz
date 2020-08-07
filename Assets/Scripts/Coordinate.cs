@@ -43,4 +43,9 @@ public struct Coordinate
         
         return coordinate;
     }
+
+    public override string ToString()
+    {
+        return column + row.ToString();
+    }
 }
