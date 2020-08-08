@@ -108,22 +108,107 @@ public class Chessboard : MonoBehaviour
 
     private void FindKingMoves(Piece piece)
     {
-        throw new NotImplementedException();
+        Coordinate current = piece.Position;
+
+        int[] xChange = { 1, 1, 0, -1, -1, -1, 0, 1 };
+        int[] yChange = { 0, 1, 1, 1, 0, -1, -1, -1 };
+
+        // Check all directions
+        for (int i = 0; i < 8; i++)
+        {
+            int row = current.row + xChange[i];
+            int col = current.column + yChange[i];
+
+            if (row >= 1 && row <= 8 && col >= 'a' && col <= 'h')
+            {
+                if (_board[col, row] == null || _board[col, row].IsWhite != piece.IsWhite)
+                    _validMoves.Add(new Coordinate((char)col, (byte)row));
+            }
+        }
     }
 
     private void FindQueenMoves(Piece piece)
     {
-        throw new NotImplementedException();
+        Coordinate current = piece.Position;
+
+        int[] xChange = { 1, 1, 0, -1, -1, -1, 0, 1 };
+        int[] yChange = { 0, 1, 1, 1, 0, -1, -1, -1 };
+
+        // Check all directions
+        for (int i = 0; i < 8; i++)
+        {
+            int row = current.row + xChange[i];
+            int col = current.column + yChange[i];
+            bool pieceBlocked = false;
+
+            while (row >= 1 && row <= 8 && col >= 'a' && col <= 'h' && !pieceBlocked)
+            {
+                if (_board[col, row] != null)
+                    pieceBlocked = true;
+
+                if (_board[col, row] == null || _board[col, row].IsWhite != piece.IsWhite)
+                    _validMoves.Add(new Coordinate((char)col, (byte)row));
+
+                row += xChange[i];
+                col += yChange[i];
+            }
+        }
     }
 
     private void FindRookMoves(Piece piece)
     {
-        throw new NotImplementedException();
+        Coordinate current = piece.Position;
+
+        int[] xChange = { 1, 0, -1, 0 };
+        int[] yChange = { 0, 1, 0, -1 };
+
+        // Check each horizontal/vertical
+        for (int i = 0; i < 4; i++)
+        {
+            int row = current.row + xChange[i];
+            int col = current.column + yChange[i];
+            bool pieceBlocked = false;
+
+            while (row >= 1 && row <= 8 && col >= 'a' && col <= 'h' && !pieceBlocked)
+            {
+                if (_board[col, row] != null)
+                    pieceBlocked = true;
+
+                if (_board[col, row] == null || _board[col, row].IsWhite != piece.IsWhite)
+                    _validMoves.Add(new Coordinate((char)col, (byte)row));
+
+                row += xChange[i];
+                col += yChange[i];
+            }
+        }
     }
 
     private void FindBishopMoves(Piece piece)
     {
-        throw new NotImplementedException();
+        Coordinate current = piece.Position;
+
+        int[] xChange = { 1, 1, -1, -1 };
+        int[] yChange = { 1, -1, -1, 1 };
+
+        // Check each diagonal
+        for (int i = 0; i < 4; i++)
+        {
+            int row = current.row + xChange[i];
+            int col = current.column + yChange[i];
+            bool pieceBlocked = false;
+
+            while (row >= 1 && row <= 8 && col >= 'a' && col <= 'h' && !pieceBlocked)
+            {
+                if (_board[col, row] != null)
+                    pieceBlocked = true;
+
+                if (_board[col, row] == null || _board[col, row].IsWhite != piece.IsWhite)
+                    _validMoves.Add(new Coordinate((char)col, (byte)row));
+
+                row += xChange[i];
+                col += yChange[i];
+            }
+        }
     }
 
     private void FindKnightMoves(Piece piece)
@@ -133,6 +218,7 @@ public class Chessboard : MonoBehaviour
         int[] xChange = { 1, 2, 2, 1, -1, -2, -2, -1 };
         int[] yChange = { 2, 1, -1, -2, -2, -1, 1, 2 };
 
+        // Check each L step
         for (int i = 0; i < 8; i++)
         {
             int row = current.row + xChange[i];
