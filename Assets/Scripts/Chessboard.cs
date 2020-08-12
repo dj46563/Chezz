@@ -11,6 +11,7 @@ public class Chessboard : MonoBehaviour
     
     private Board _board;
     private bool _isPieceClicked = false;
+    private bool _isWhiteMove = true;
     private Piece _pieceClicked;
     private List<Coordinate> _validMoves = new List<Coordinate>();
 
@@ -42,7 +43,7 @@ public class Chessboard : MonoBehaviour
                 _validMoves.Clear();
                 _isPieceClicked = false;
             }
-            else if (_board[square] != null)
+            else if (_board[square] != null && _board[square].IsWhite == _isWhiteMove)
             { 
                 _isPieceClicked = true;
                 _pieceClicked = _board[square];
@@ -74,6 +75,9 @@ public class Chessboard : MonoBehaviour
             _board[dest] = piece;
 
             // TODO: Prompt Pawn promotion if needed
+
+            // Switch turn order
+            _isWhiteMove = !_isWhiteMove;
 
             return true;
         }
